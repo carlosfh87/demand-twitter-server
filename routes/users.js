@@ -44,6 +44,8 @@ router.get('/', function(req, res, next) {
 
 function apiresponse(err, data, reponse) {
 
+  console.log("data:", data);
+
   if(data && data.users) {
 
     usersData = usersData.concat(data.users);
