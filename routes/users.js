@@ -12,10 +12,21 @@ var client = new Twitter({
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   console.log("data query :",req.query);
-  var params = {screen_name: 'nodejs'};
-  client.get('statuses/user_timeline', params, function(error, tweets, response) {
+  var params = {screen_name: 'Filelouch'};
+  /*client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
       res.send(tweets);
+    }
+  });*/
+  client.get('favorites/list',params, function(error, tweets, response) {
+    if(error){
+
+      console.log(tweets);  // The favorites.
+      console.log(response);  // Raw response object.
+
+      res.send({tweets:tweets,response:response});
+    }else{
+      throw error;
     }
   });
   // var users = {
