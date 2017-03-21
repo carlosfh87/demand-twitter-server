@@ -15,40 +15,54 @@ var client_2 = new Twit({
 router.get('/', function(req, res, next) {
 
   console.log("data query :",req.query);
-  var params = {
-    cursor:-1,
-    screen_name:'Filelouch',
-    skip_status:true,
-    include_user_entities:false
+
+  var users = {
+    user1: req.query.var1,
+    user2: req.query.var2
   }
 
-  /*client.get('favorites/list',params, function(error, tweets, response) {
-    if(!error){
+  var followers1 = getFollowers(users.user1);
+  var followers2 = getFollowers(users.user2);
 
-      console.log(tweets);  // The favorites.
-      console.log(response);  // Raw response object.
+  // client_2.get('followers/list', { screen_name: 'Filelouch', cursor:-1, include_user_entities:false },  function (err, data, response) {
+  //   res.send({error:err, data:data});
+  // })
 
-      res.send({tweets:tweets,response:response,status:'ok'});
-    }else{
-      throw error;
-    }
-  });*/
+  users = {
+    followers:[followers1.concat(followers2)],
+    friends:[]
+  }
+  res.send(users);
 
-  client_2.get('followers/list', { screen_name: 'Filelouch', cursor:-1, include_user_entities:false },  function (err, data, response) {
-    res.send({error:err, data:data});
-  })
-
-  /*client.get('statuses/user_timeline', params, function(error, tweets, response) {
-    if (!error) {
-      res.send(tweets);
-    }
-  });*/
-
-  // var users = {
-  //   user1: req.query.var1,
-  //   user2: req.query.var2
-  // }
-  // res.send(users);
 });
+
+function getFollowers (screen_name) {
+  var cursor = -1,
+      users = [];
+  do {
+    client_2.get('followers/list', { screen_name: 'Filelouch', cursor:cursor, include_user_entities:false },  function (err, data, response) {
+      // res.send({error:err, data:data});
+      if(!err){
+        users = users.concat(data.users);
+        cursor = cursor.concat(data.next_cursor);
+      }
+    });
+  }
+  while ( cursor != 0 )
+
+  return data;
+}
+
+function arrayUnique(array) {
+    var a = array.concat();
+    for(var i=0; i<a.length; ++i) {
+        for(var j=i+1; j<a.length; ++j) {
+            if(a[i] === a[j])
+                a.splice(j--, 1);
+        }
+    }
+
+    return a;
+}
 
 module.exports = router;
