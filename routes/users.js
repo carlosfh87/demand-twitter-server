@@ -11,24 +11,33 @@ var client = new Twitter({
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
+
   console.log("data query :",req.query);
-  var params = {screen_name: 'Filelouch'};
-  /*client.get('statuses/user_timeline', params, function(error, tweets, response) {
-    if (!error) {
-      res.send(tweets);
-    }
-  });*/
+  var params = {
+    cursor=-1,
+    screen_name='Filelouch',
+    skip_status=true,
+    include_user_entities=false
+  }
+
   client.get('favorites/list',params, function(error, tweets, response) {
     if(!error){
 
       console.log(tweets);  // The favorites.
       console.log(response);  // Raw response object.
 
-      res.send({tweets:tweets,response:response});
+      res.send({tweets:tweets,response:response,status:'ok'});
     }else{
       throw error;
     }
   });
+
+  /*client.get('statuses/user_timeline', params, function(error, tweets, response) {
+    if (!error) {
+      res.send(tweets);
+    }
+  });*/
+
   // var users = {
   //   user1: req.query.var1,
   //   user2: req.query.var2
