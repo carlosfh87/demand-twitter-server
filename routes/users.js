@@ -43,14 +43,18 @@ router.get('/', function(req, res, next) {
 });
 
 function apiresponse(err, data, reponse) {
-  usersData = usersData.concat(data.users);
-  users[users.current].cursor = data.next_cursor;
 
-  console.log("apiresponse data.next_cursor:", data.next_cursor)
-  console.log("apiresponse data:", data.users.length)
-  console.log("cursor:", users[users.current].cursor )
+  if(data && data.users) {
 
-  if(data.next_cursor != 0){
+    usersData = usersData.concat(data.users);
+    users[users.current].cursor = data.next_cursor;
+
+    console.log("apiresponse data.next_cursor:", data.next_cursor)
+    console.log("apiresponse data:", data.users.length)
+    console.log("cursor:", users[users.current].cursor )
+  }
+
+  if(data.next_cursor != 0 && data){
     getFollowers(users[users.current].screen_name, data.next_cursor, apiresponse)
   }else{
     users.res.send(usersData);
