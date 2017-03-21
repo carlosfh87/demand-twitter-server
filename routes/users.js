@@ -1,6 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var Twitter = require('twitter');
+var Twit = require('twit')
 
 var client = new Twitter({
   consumer_key: 'Mfr2N91xC1JJVWvcjthsM7j1X',
@@ -8,6 +9,15 @@ var client = new Twitter({
   access_token_key: '285409171-uXwaLMhbpNmtm57qKcpq1lAOhhb1xDavU7hjsGol',
   access_token_secret: 'Gmeb7l8GYwbLy7xyB57hMn6cQjBLvBQLP3m6co2epRLu9'
 });
+
+var client_2 = new Twit({
+  consumer_key:         'Mfr2N91xC1JJVWvcjthsM7j1X',
+  consumer_secret:      'GMrRn4I691mVxiha6YGHp4Wn1RXfLmZIN53tRW8iqARg49uV1M',
+  access_token:         '285409171-uXwaLMhbpNmtm57qKcpq1lAOhhb1xDavU7hjsGol',
+  access_token_secret:  'Gmeb7l8GYwbLy7xyB57hMn6cQjBLvBQLP3m6co2epRLu9',
+  timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
+});
+
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -20,7 +30,7 @@ router.get('/', function(req, res, next) {
     include_user_entities:false
   }
 
-  client.get('favorites/list',params, function(error, tweets, response) {
+  /*client.get('favorites/list',params, function(error, tweets, response) {
     if(!error){
 
       console.log(tweets);  // The favorites.
@@ -30,7 +40,11 @@ router.get('/', function(req, res, next) {
     }else{
       throw error;
     }
-  });
+  });*/
+
+  client_2.get('followers/ids', { screen_name: 'Filelouch' },  function (err, data, response) {
+    res.send(data);
+  })
 
   /*client.get('statuses/user_timeline', params, function(error, tweets, response) {
     if (!error) {
