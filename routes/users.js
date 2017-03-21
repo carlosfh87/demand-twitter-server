@@ -64,7 +64,7 @@ function apiresponse(err, data, reponse) {
 
 function getFollowers (screen_name, cursor, callback) {
   console.log("getFollowers:",screen_name,cursor)
-  if( screen_name && !!cursor ){
+  if( screen_name && cursor ){
     client_2.get('followers/list', { screen_name: screen_name, cursor:cursor, include_user_entities:false }, callback);
   }else{
     users.res.send(usersData);
