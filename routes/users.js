@@ -59,9 +59,9 @@ function apiresponse(err, data, reponse) {
   if(data.next_cursor != 0 && data){
     getFollowers(users[users.current].screen_name, data.next_cursor, apiresponse)
   }else{
+    console.log("apiresponse send data:", usersData.length)
     users.res.send(usersData);
   }
-  // users.res.send(data);
 }
 
 function getFollowers (screen_name, cursor, callback) {
@@ -69,6 +69,7 @@ function getFollowers (screen_name, cursor, callback) {
   if( screen_name && cursor ){
     client_2.get('followers/list', { screen_name: screen_name, cursor:cursor, include_user_entities:false }, callback);
   }else{
+    console.log("getFollowers send data:", usersData.length)
     users.res.send(usersData);
   }
 }
