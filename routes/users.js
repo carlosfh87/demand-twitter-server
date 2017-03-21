@@ -46,11 +46,12 @@ function apiresponse(err, data, reponse) {
   usersData = usersData.concat(data.users);
   users[users.current].cursor = data.next_cursor;
 
+  console.log("apiresponse data.next_cursor:", data.next_cursor)
   console.log("apiresponse data:", usersData.length)
   console.log("cursor:", users[users.current].cursor )
 
-  if(users[users.current].cursor != 0){
-    getFollowers(users[users.current].screen_name, users[users.current].cursor, apiresponse)
+  if(data.next_cursor != 0){
+    getFollowers(users[users.current].screen_name, data.next_cursor, apiresponse)
   }else{
     users.res.send(usersData);
   }
