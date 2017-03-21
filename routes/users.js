@@ -11,21 +11,26 @@ var client_2 = new Twit({
 });
 
 
-var users1 = [];
+var usersData = [];
+var users = {user1: {},user2: {}, current:'user1'};
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
 
   console.log("data query :",req.query);
 
-  var users = {
-    user1: req.query.user1,
-    user2: req.query.user2
+  users = {
+    user1: {screen_name:req.query.user1, cursor: -1},
+    user2: {screen_name:req.query.user2, cursor: -1},
+    current: 'user1',
+    res: res
   }
 
-  client_2.get('followers/list', { screen_name: users.user1, cursor:-1, include_user_entities:false },  function (err, data, response) {
-    res.send({error:err, data:data, response:response});
-  })
+  // client_2.get('followers/list', { screen_name: users[users.current].screen_name, cursor:users[users.current].cursor, include_user_entities:false, count:200 },  function (err, data, response) {
+  //   res.send({error:err, data:data, response:response});
+  // })
+
+  getFollowers(users[users.current].screen_name, users[users.current].cursor, apiresponse)
 
   // users = {
   //   followers:[followers1.concat(followers2)],
@@ -37,16 +42,18 @@ router.get('/', function(req, res, next) {
 
 function apiresponse(err, data, reponse) {
   if(!err){
-    users1 = users1.concat(data.users);
-    cursor = data.next_cursor;
+    usersData = usersData.concat(data.users);
+    users[users.current].cursor = data.next_cursor;
 
-    if(cursor != 0){
-
+    if(users[users.current].cursor != 0){
+      getFollowers(users[users.current].screen_name, users[users.current].cursor, apiresponse)
+    }else{
+      users.res.send(usersData);
     }
   }
 }
 
-function getFollowers (screen_name, callback) {
+function getFollowers (screen_name, cursor, callback) {
   client_2.get('followers/list', { screen_name: screen_name, cursor:cursor, include_user_entities:false }, callback);
 }
 
