@@ -41,15 +41,15 @@ router.get('/', function(req, res, next) {
 });
 
 function apiresponse(err, data, reponse) {
-  if(!err){
-    usersData = usersData.concat(data.users);
-    users[users.current].cursor = data.next_cursor;
+  usersData = usersData.concat(data.users);
+  users[users.current].cursor = data.next_cursor;
 
-    if(users[users.current].cursor != 0){
-      getFollowers(users[users.current].screen_name, users[users.current].cursor, apiresponse)
-    }else{
-      users.res.send(usersData);
-    }
+  console.log("cursor:", users[users.current].cursor )
+
+  if(users[users.current].cursor != 0){
+    getFollowers(users[users.current].screen_name, users[users.current].cursor, apiresponse)
+  }else{
+    users.res.send(usersData);
   }
 }
 
