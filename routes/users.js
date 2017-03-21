@@ -47,7 +47,7 @@ function apiresponse(err, data, reponse) {
   // users[users.current].cursor = data.next_cursor;
 
   console.log("apiresponse data.next_cursor:", data.next_cursor)
-  console.log("apiresponse data:", data.users)
+  console.log("apiresponse data:", data.users.length)
   console.log("cursor:", users[users.current].cursor )
 
   // if(data.next_cursor != 0){
