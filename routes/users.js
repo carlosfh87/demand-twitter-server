@@ -43,7 +43,7 @@ router.get('/', function(req, res, next) {
   });*/
 
   client_2.get('followers/list', { screen_name: 'Filelouch', cursor:-1, include_user_entities:false },  function (err, data, response) {
-    res.send(data);
+    res.send({error:err, data:data});
   })
 
   /*client.get('statuses/user_timeline', params, function(error, tweets, response) {
