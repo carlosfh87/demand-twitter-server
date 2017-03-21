@@ -30,7 +30,7 @@ router.get('/', function(req, res, next) {
   //   res.send({error:err, data:data, response:response});
   // })
 
-  console.log("users[users.current]",users[users.current])
+  console.log("users[users.current]",users[users.current].screen_name,users[users.current].cursor)
 
   getFollowers(users[users.current].screen_name, users[users.current].cursor, apiresponse)
 
