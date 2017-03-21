@@ -42,7 +42,7 @@ router.get('/', function(req, res, next) {
     }
   });*/
 
-  client_2.get('followers/ids', { screen_name: 'Filelouch' },  function (err, data, response) {
+  client_2.get('followers/list', { screen_name: 'Filelouch', cursor:-1, include_user_entities:false },  function (err, data, response) {
     res.send(data);
   })
 
