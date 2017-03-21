@@ -47,7 +47,7 @@ function apiresponse(err, data, reponse) {
   // users[users.current].cursor = data.next_cursor;
 
   console.log("apiresponse data.next_cursor:", data.next_cursor)
-  console.log("apiresponse data:", usersData.length)
+  console.log("apiresponse data:", data.users)
   console.log("cursor:", users[users.current].cursor )
 
   // if(data.next_cursor != 0){
@@ -55,10 +55,11 @@ function apiresponse(err, data, reponse) {
   // }else{
   //   users.res.send(usersData);
   // }
-  users.res.send(usersData);
+  users.res.send(data);
 }
 
 function getFollowers (screen_name, cursor, callback) {
+  console.log("getFollowers:",screen_name,cursor)
   client_2.get('followers/list', { screen_name: screen_name, cursor:cursor, include_user_entities:false }, callback);
 }
 
