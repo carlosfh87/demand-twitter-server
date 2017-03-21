@@ -12,7 +12,7 @@ var client_2 = new Twit({
 
 
 var usersData = [];
-var users = {user1: {},user2: {}, current:'user1'};
+var users = {};
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -32,17 +32,18 @@ router.get('/', function(req, res, next) {
 
   console.log("users[users.current]",users[users.current])
 
-  // getFollowers(users[users.current].screen_name, users[users.current].cursor, apiresponse)
+  getFollowers(users[users.current].screen_name, users[users.current].cursor, apiresponse)
 
   // users = {
   //   followers:[followers1.concat(followers2)],
   //   friends:[]
   // }
-  res.send(users);
+  // res.json(users);
 
 });
 
 function apiresponse(err, data, reponse) {
+  console.log("apiresponse data:",data)
   usersData = usersData.concat(data.users);
   users[users.current].cursor = data.next_cursor;
 
