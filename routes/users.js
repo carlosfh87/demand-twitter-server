@@ -44,7 +44,7 @@ router.get('/', function(req, res, next) {
 
 function apiresponse(err, data, reponse) {
   // usersData = usersData.concat(data.users);
-  // users[users.current].cursor = data.next_cursor;
+  users[users.current].cursor = data.next_cursor;
 
   console.log("apiresponse data.next_cursor:", data.next_cursor)
   console.log("apiresponse data:", data.users.length)
