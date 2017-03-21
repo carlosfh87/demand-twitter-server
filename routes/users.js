@@ -14,10 +14,10 @@ router.get('/', function(req, res, next) {
 
   console.log("data query :",req.query);
   var params = {
-    cursor=-1,
-    screen_name='Filelouch',
-    skip_status=true,
-    include_user_entities=false
+    cursor:-1,
+    screen_name:'Filelouch',
+    skip_status:true,
+    include_user_entities:false
   }
 
   client.get('favorites/list',params, function(error, tweets, response) {
