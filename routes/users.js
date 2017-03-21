@@ -22,7 +22,7 @@ router.get('/', function(req, res, next) {
   }
 
   var followers1 = getFollowers(users.user1);
-  var followers2 = getFollowers(users.user2);
+  // var followers2 = getFollowers(users.user2);
 
   // client_2.get('followers/list', { screen_name: 'Filelouch', cursor:-1, include_user_entities:false },  function (err, data, response) {
   //   res.send({error:err, data:data});
@@ -44,7 +44,7 @@ function getFollowers (screen_name) {
       // res.send({error:err, data:data});
       if(!err){
         users = users.concat(data.users);
-        cursor = cursor.concat(data.next_cursor);
+        cursor = data.next_cursor;
       }
     });
   }
