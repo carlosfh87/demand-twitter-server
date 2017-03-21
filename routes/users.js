@@ -19,7 +19,7 @@ router.get('/', function(req, res, next) {
     }
   });*/
   client.get('favorites/list',params, function(error, tweets, response) {
-    if(error){
+    if(!error){
 
       console.log(tweets);  // The favorites.
       console.log(response);  // Raw response object.
