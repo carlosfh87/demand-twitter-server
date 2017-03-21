@@ -17,22 +17,22 @@ router.get('/', function(req, res, next) {
   console.log("data query :",req.query);
 
   var users = {
-    user1: req.query.var1,
-    user2: req.query.var2
+    user1: req.query.user1,
+    user2: req.query.user2
   }
 
-  var followers1 = getFollowers(users.user1);
+  // var followers1 = getFollowers(users.user1);
   // var followers2 = getFollowers(users.user2);
 
-  // client_2.get('followers/list', { screen_name: 'Filelouch', cursor:-1, include_user_entities:false },  function (err, data, response) {
-  //   res.send({error:err, data:data});
-  // })
+  client_2.get('followers/list', { screen_name: users.user1, cursor:-1, include_user_entities:false },  function (err, data, response) {
+    res.send({error:err, data:data});
+  })
 
-  users = {
-    followers:[followers1.concat(followers2)],
-    friends:[]
-  }
-  res.send(users);
+  // users = {
+  //   followers:[followers1.concat(followers2)],
+  //   friends:[]
+  // }
+  // res.send(users);
 
 });
 
