@@ -11,6 +11,8 @@ var client_2 = new Twit({
 });
 
 
+var users1 = [];
+
 /* GET users listing. */
 router.get('/', function(req, res, next) {
 
@@ -21,11 +23,8 @@ router.get('/', function(req, res, next) {
     user2: req.query.user2
   }
 
-  // var followers1 = getFollowers(users.user1);
-  // var followers2 = getFollowers(users.user2);
-
   client_2.get('followers/list', { screen_name: users.user1, cursor:-1, include_user_entities:false },  function (err, data, response) {
-    res.send({error:err, data:data});
+    res.send({error:err, data:data, response:response});
   })
 
   // users = {
@@ -36,33 +35,19 @@ router.get('/', function(req, res, next) {
 
 });
 
-function getFollowers (screen_name) {
-  var cursor = -1,
-      users = [];
-  do {
-    client_2.get('followers/list', { screen_name: 'Filelouch', cursor:cursor, include_user_entities:false },  function (err, data, response) {
-      // res.send({error:err, data:data});
-      if(!err){
-        users = users.concat(data.users);
-        cursor = data.next_cursor;
-      }
-    });
-  }
-  while ( cursor != 0 )
+function apiresponse(err, data, reponse) {
+  if(!err){
+    users1 = users1.concat(data.users);
+    cursor = data.next_cursor;
 
-  return data;
+    if(cursor != 0){
+
+    }
+  }
 }
 
-function arrayUnique(array) {
-    var a = array.concat();
-    for(var i=0; i<a.length; ++i) {
-        for(var j=i+1; j<a.length; ++j) {
-            if(a[i] === a[j])
-                a.splice(j--, 1);
-        }
-    }
-
-    return a;
+function getFollowers (screen_name, callback) {
+  client_2.get('followers/list', { screen_name: screen_name, cursor:cursor, include_user_entities:false }, callback);
 }
 
 module.exports = router;
