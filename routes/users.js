@@ -14,7 +14,6 @@ var twitterApi = new Twit({
 
 var usersData = [];
 var users = {};
-var usersId = [];
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -22,7 +21,6 @@ router.get('/', function(req, res, next) {
   console.log("data query :",req.query);
 
   usersData = [];
-  usersId = [];
   users = {
     user1: {screen_name:req.query.user1, cursor: -1},
     user2: {screen_name:req.query.user2, cursor: -1},
@@ -82,17 +80,18 @@ function getFollowers (screen_name, cursor, callback) {
 }
 
 function getFollowersIds (screen_name, callback) {
+  var usersId = [];
   twitterApi.get('followers/ids', { screen_name: screen_name },  function (err, data, response) {
     if(!err){
       if( data && data.ids ){
-        usersId = usersId.concat(data.ids);
+        usersId = usersId.push(data.ids);
         console.log("usersId:",usersId.length);
       }
-      if( usersId === data.ids ){
+      if( usersId.length === 1 ){
         getFollowersIds(users.user2.screen_name, callback)
       }else{
-        usersId = _.uniq(usersId);
-        console.log("getFollowersIds:", usersId.length);
+        usersId = _.intersection(usersId[0], usersId[1]);
+        console.log("getFollowersIds:", usersId.toString());
         getUsersByIds(usersId, callback);
         // getUsersById(usersId, callback);
       }
