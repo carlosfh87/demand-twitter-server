@@ -30,16 +30,16 @@ router.get('/', function(req, res, next) {
     res: res
   }
 
-  var usersstring = "48443,406743927,66912831,2542549416,2818515223,1325280360,585254092,84846175,276926175,110459784,48443,406743927,66912831,2542549416,2818515223,1325280360,585254092,84846175,276926175,110459784";
+  // var usersstring = "48443,406743927,66912831,2542549416,2818515223,1325280360,585254092,84846175,276926175,110459784,48443,406743927,66912831,2542549416,2818515223,1325280360,585254092,84846175,276926175,110459784";
 
-  twitterApi.get('users/lookup', { user_id: usersstring },  function (err, user, response) {
-    res.send(user);
-  });
-
-  // getFollowersIds(users.user1.screen_name, function(usersData){
-  //   console.log("get all users")
-  //   res.send(usersData);
+  // twitterApi.get('users/lookup', { user_id: usersstring },  function (err, user, response) {
+  //   res.send(user);
   // });
+
+  getFollowersIds(users.user1.screen_name, function(err, usersData, response){
+    console.log("get all users")
+    res.send(usersData);
+  });
 
   // users = {
   //   followers:[followers1.concat(followers2)],
@@ -49,7 +49,7 @@ router.get('/', function(req, res, next) {
 
 });
 
-function apiresponse(err, data, reponse) {
+function apiresponse(err, data, response) {
 
   console.log("data:", data);
 
@@ -83,37 +83,76 @@ function getFollowers (screen_name, cursor, callback) {
 
 function getFollowersIds (screen_name, callback) {
   twitterApi.get('followers/ids', { screen_name: screen_name },  function (err, data, response) {
-    if( data && data.ids ){
-      usersId = usersId.concat(data.ids);
-      console.log("usersId:",usersId.length);
-    }
-    if( usersId === data.ids ){
-      getFollowersIds(users.user2.screen_name, callback)
+    if(!err){
+      if( data && data.ids ){
+        usersId = usersId.concat(data.ids);
+        console.log("usersId:",usersId.length);
+      }
+      if( usersId === data.ids ){
+        getFollowersIds(users.user2.screen_name, callback)
+      }else{
+        usersId = _.uniq(usersId);
+        console.log("getFollowersIds:", usersId.length);
+        getUsersByIds(usersId, callback);
+        // getUsersById(usersId, callback);
+      }
     }else{
-      usersId = _.uniq(usersId);
-      console.log("getFollowersIds:", usersId.length);
-      getUsersById(usersId, callback);
+      callback(err, data, response);
     }
   });
 }
 
-function getUsersById(ids, callback){
+// function getUsersById(ids, callback){
+//   var usersComplete = [];
+
+//   ids.map(function(value,index){
+//     twitterApi.get('users/show', { user_id: parseInt(value) },  function (err, user, response) {
+//       if( user && !err ){
+//         usersComplete.push(user);
+//       }
+//       console.log("user id", parseInt(value), usersComplete.length, ids.length-1, index );
+//       if( ids.length === usersComplete.length ){
+//         return callback(err, usersComplete, response);
+//       }
+//     });
+//   });
+// }
+
+function getUsersByIds(ids, callback) {
   var usersComplete = [];
-  ids.map(function(value,index){
-    twitterApi.get('users/show', { user_id: parseInt(value) },  function (err, user, response) {
-      if( user && !err ){
+  ids = chunckarray(ids, 100);
+
+  ids.map(function(value, index) {
+    twitterApi.get('users/lookup', { user_id: value.toString() },  function (err, user, response) {
+      if(!err) {
         usersComplete.push(user);
-      }
-      console.log("user id", parseInt(value), usersComplete.length, ids.length-1, index );
-      if( ids.length === usersComplete.length ){
-        callback(usersComplete);
+        console.log("getFollowersIds:",usersComplete);
+        if(ids.length === usersComplete.length) {
+          return callback(err, usersComplete, response);
+        }
+      } else {
+        return callback(err, user, response);
       }
     });
-  });
+  })
 }
 
 function getUsersLookup(ids) {
   // body...
+}
+
+function chunckarray(array,N){
+  var i,
+      j,
+      temparray,
+      chunk = N,
+      arrayChunk = [];
+
+  for (i=0,j=array.length; i<j; i+=chunk) {
+      temparray = array.slice(i,i+chunk);
+      arrayChunk.push(temparray);
+  }
+  return arrayChunk;
 }
 
 function getAllUsers(usersData) {
