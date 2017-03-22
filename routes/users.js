@@ -30,7 +30,10 @@ router.get('/', function(req, res, next) {
     res: res
   }
 
-  getFollowersIds(users.user1.screen_name, getFollowersIds);
+  getFollowersIds(users.user1.screen_name, function(usersData){
+    console.log("get all users")
+    res.send(usersData);
+  });
 
   // users = {
   //   followers:[followers1.concat(followers2)],
@@ -78,11 +81,11 @@ function getFollowersIds (screen_name, callback) {
       usersId = usersId.concat(data.ids);
       console.log("usersId:",usersId.length);
     }
-    if( callback ){
-      callback(users.user2.screen_name)
+    if( users.user2.screen_name != screen_name ){
+      getFollowersIds(users.user2.screen_name, callback)
     }else{
       usersId = _.uniq(usersId);
-      getUsersById(usersId, getAllUsers);
+      getUsersById(usersId, callback);
     }
   })
 }
