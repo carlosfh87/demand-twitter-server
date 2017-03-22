@@ -30,10 +30,14 @@ router.get('/', function(req, res, next) {
     res: res
   }
 
-  getFollowersIds(users.user1.screen_name, function(usersData){
-    console.log("get all users")
-    res.send(usersData);
+  twitterApi.get('users/show', { user_id: 2542549416 },  function (err, user, response) {
+    res.send(user),
   });
+
+  // getFollowersIds(users.user1.screen_name, function(usersData){
+  //   console.log("get all users")
+  //   res.send(usersData);
+  // });
 
   // users = {
   //   followers:[followers1.concat(followers2)],
