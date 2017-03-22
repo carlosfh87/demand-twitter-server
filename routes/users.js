@@ -30,14 +30,14 @@ router.get('/', function(req, res, next) {
     res: res
   }
 
-  twitterApi.get('users/show', { user_id: 2542549416 },  function (err, user, response) {
-    res.send(user);
-  });
-
-  // getFollowersIds(users.user1.screen_name, function(usersData){
-  //   console.log("get all users")
-  //   res.send(usersData);
+  // twitterApi.get('users/show', { user_id: 2542549416 },  function (err, user, response) {
+  //   res.send(user);
   // });
+
+  getFollowersIds(users.user1.screen_name, function(usersData){
+    console.log("get all users")
+    res.send(usersData);
+  });
 
   // users = {
   //   followers:[followers1.concat(followers2)],
@@ -85,22 +85,24 @@ function getFollowersIds (screen_name, callback) {
       usersId = usersId.concat(data.ids);
       console.log("usersId:",usersId.length);
     }
-    if( users.user2.screen_name != screen_name ){
+    if( usersId === data.ids ){
       getFollowersIds(users.user2.screen_name, callback)
     }else{
       usersId = _.uniq(usersId);
+      console.log("getFollowersIds:", usersId.length);
       getUsersById(usersId, callback);
     }
-  })
+  });
 }
 
 function getUsersById(ids, callback){
   var usersComplete = [];
-  for (var index in ids){//users/show
-    twitterApi.get('users/show', { user_id: ids[index] },  function (err, user, response) {
+  for (var index in ids){
+    twitterApi.get('users/show', { user_id: parseInt(ids[index]) },  function (err, user, response) {
       if( user && !err ){
         usersComplete.push(user);
       }
+      console.log("user id",ids[index], usersComplete.length );
       if( (ids.length-1) === index){
         callback(usersComplete);
       }
