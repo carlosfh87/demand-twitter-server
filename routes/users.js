@@ -79,31 +79,22 @@ function getFollowers (screen_name, cursor, callback) {
   }
 }
 
-function getFollowersIds (callback) {
-  var usersId = {};
-  var params = {
-    screen_name : users[users.current].screen_name
-  }
-  twitterApi.get('followers/ids', params,  function (err, data, response) {
+function getFollowersIds (screen_name, callback) {
+  var usersId = [];
+  twitterApi.get('followers/ids', { screen_name: screen_name },  function (err, data, response) {
     if(!err){
-
       if( data && data.ids ){
-        // usersId = usersId.concat(data.ids);
-        usersId[users.current] = data.ids;
-        console.log("usersId:",usersId);
+        usersId = usersId.concat(data.ids);
+        console.log("usersId:",usersId.length);
       }
-
-      if( users.current == 'user1' ){
-        users.current = 'user2';
-        console.log("getFollowersIds users:",users[users.current].screen_name)
-        getFollowersIds(callback)
-      } else {
-        var usersFiltersId = _.intersection_(usersId['user1'],usersId['user2']);
-        console.log("getFollowersIds:", usersFiltersId.length);
-        getUsersByIds(usersFiltersId, callback);
+      if( usersId === data.ids ){
+        getFollowersIds(users.user2.screen_name, callback)
+      }else{
+        usersId = _.uniq(usersId);
+        console.log("getFollowersIds:", usersId.length);
+        getUsersByIds(usersId, callback);
         // getUsersById(usersId, callback);
       }
-
     }else{
       callback(err, data, response);
     }
