@@ -88,9 +88,10 @@ function getFollowersIds (screen_name, callback) {
         usersId[users.current] = data.ids;
         console.log("usersId:",usersId);
       }
-      if( users.current === 'user1' ){
+      if( users.current == 'user1' ){
         users.current = 'user2';
-        getFollowersIds(users.user2.screen_name, callback)
+        console.log("getFollowersIds users:",users[users.current].screen_name)
+        getFollowersIds(users[users.current].screen_name, callback)
       }else{
         var usersFiltersId = _.intersection_(usersId['user1'],usersId['user2']);
         console.log("getFollowersIds:", usersFiltersId.length);
