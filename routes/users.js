@@ -81,13 +81,15 @@ function getFollowers (screen_name, cursor, callback) {
 
 function getFollowersIds (screen_name, callback) {
   var usersId = [];
+  var firstUser = false;
   twitterApi.get('followers/ids', { screen_name: screen_name },  function (err, data, response) {
     if(!err){
       if( data && data.ids ){
         usersId = usersId.concat(data.ids);
         console.log("-------id user------",data.ids)
       }
-      if( usersId === data.ids ){
+      if( !firstUser ){
+        firstUser = !firstUser;
         getFollowersIds(users.user2.screen_name, callback)
       }else{
         console.log("-----ids-----",usersId);
