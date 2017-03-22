@@ -85,9 +85,11 @@ function getFollowersIds (screen_name, callback) {
     if(!err){
       if( data && data.ids ){
         usersId.push(data.ids);
-        console.log("usersId:",usersId.length);
+        console.log("usersId:",usersId,data.ids);
+        console.log("usersId length:",usersId.length,data.ids);
       }
       if( usersId.length === 1 ){
+        console.log("call again getFollowersIds");
         getFollowersIds(users.user2.screen_name, callback)
       }else{
         usersId = _.intersection(usersId[0], usersId[1]);
