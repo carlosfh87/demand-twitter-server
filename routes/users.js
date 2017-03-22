@@ -44,14 +44,15 @@ router.get('/', function(req, res, next) {
           var filterIds = _.intersection(ids[0], ids[1]);
 
           console.log("----filterIds-----",filterIds);
+          if(!filterIds.length) return res.send(filterIds);
           getUsersByIds(filterIds, function(err, usersComplete, response) {
             console.log("usersComplete:",usersComplete);
             if(err) return res.send({error:err});
-            res.send(usersComplete);
+            return res.send(usersComplete);
           });
         }
       } else {
-        res.send({error:err});
+        return res.send({error:err});
       }
     });
   })
