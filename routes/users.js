@@ -14,7 +14,6 @@ var twitterApi = new Twit({
 
 var usersData = [];
 var users = {};
-var usersId = [];
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -22,7 +21,6 @@ router.get('/', function(req, res, next) {
   console.log("data query :",req.query);
 
   usersData = [];
-  usersId = [];
   users = {
     user1: {screen_name:req.query.user1, cursor: -1},
     user2: {screen_name:req.query.user2, cursor: -1},
@@ -35,10 +33,24 @@ router.get('/', function(req, res, next) {
   var ids = [];
   users.map(function(value,index) {
     twitterApi.get('followers/ids', { screen_name: value },  function (err, user, response) {
-      ids.push(user.ids)
-      console.log("----ids-----",value,ids);
-      if(ids.length == users.length){
-        res.send(user);
+
+      if(!err){
+
+        ids.push(user.ids)
+        console.log("----ids-----",value,ids);
+
+        if(ids.length == users.length){
+
+          var filterIds = _.intersection(ids[0], ids[1]);
+
+          console.log("----filterIds-----",filterIds);
+          getUsersByIds(filterIds, function(err, usersComplete, response) {
+            if(err) return res.send({error:err});
+            res.send(usersComplete);
+          });
+        }
+      } else {
+        res.send({error:err});
       }
     });
   })
@@ -58,59 +70,6 @@ router.get('/', function(req, res, next) {
   // res.json(users);
 
 });
-
-function apiresponse(err, data, response) {
-
-  console.log("data:", data);
-
-  if(data && data.users) {
-
-    usersData = usersData.concat(data.users);
-    users[users.current].cursor = data.next_cursor;
-
-    console.log("apiresponse data.next_cursor:", data.next_cursor)
-    console.log("apiresponse data:", data.users.length)
-    console.log("cursor:", users[users.current].cursor )
-  }
-
-  if(data.next_cursor != 0 && data){
-    getFollowers(users[users.current].screen_name, data.next_cursor, apiresponse)
-  }else{
-    console.log("apiresponse send data:", usersData.length)
-    users.res.send(usersData);
-  }
-}
-
-function getFollowers (screen_name, cursor, callback) {
-  console.log("getFollowers:",screen_name,cursor)
-  if( screen_name && cursor ){
-    twitterApi.get('followers/list', { screen_name: screen_name, cursor:cursor, include_user_entities:false }, callback);
-  }else{
-    console.log("getFollowers send data:", usersData.length)
-    users.res.send(usersData);
-  }
-}
-
-function getFollowersIds (screen_name, callback) {
-  twitterApi.get('followers/ids', { screen_name: screen_name },  function (err, data, response) {
-    if(!err){
-      if( data && data.ids ){
-        usersId = usersId.concat(data.ids);
-        console.log("usersId:",usersId.length);
-      }
-      if( usersId === data.ids ){
-        getFollowersIds(users.user2.screen_name, callback)
-      }else{
-        usersId = _.uniq(usersId);
-        console.log("getFollowersIds:", usersId.length);
-        getUsersByIds(usersId, callback);
-        // getUsersById(usersId, callback);
-      }
-    }else{
-      callback(err, data, response);
-    }
-  });
-}
 
 // function getUsersById(ids, callback){
 //   var usersComplete = [];
