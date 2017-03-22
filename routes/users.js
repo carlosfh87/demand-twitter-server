@@ -32,7 +32,11 @@ router.get('/', function(req, res, next) {
 
   console.log("users[users.current]",users[users.current].screen_name,users[users.current].cursor)
 
-  getFollowersIds(users[users.current].screen_name, users[users.current].cursor)
+  // getFollowersIds(users[users.current].screen_name, users[users.current].cursor)
+  client_2.get('followers/id', { screen_name: 'Filelouch', cursor:-1 }, function(err, data, response){
+      console.log("getFollowersIds:",data);
+       res.send(data);
+    });
   // getFollowers(users[users.current].screen_name, users[users.current].cursor, apiresponse)
 
   // users = {
