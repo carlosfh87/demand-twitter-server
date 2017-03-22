@@ -13,6 +13,7 @@ var client_2 = new Twit({
 
 var usersData = [];
 var users = {};
+var usersId = [];
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -28,9 +29,7 @@ router.get('/', function(req, res, next) {
 
   console.log("users[users.current]",users[users.current].screen_name,users[users.current].cursor)
 
-  getFollowersIds(users[users.current].screen_name, users[users.current].cursor)
-
-  // getFollowers(users[users.current].screen_name, users[users.current].cursor, apiresponse)
+  getFollowersIds(users.user1.screen_name, getFollowersIds);
 
   // users = {
   //   followers:[followers1.concat(followers2)],
@@ -72,11 +71,18 @@ function getFollowers (screen_name, cursor, callback) {
   }
 }
 
-function getFollowersIds (screen_name, cursor, callback) {
-    client_2.get('followers/ids', { screen_name: 'tolga_tezel' },  function (err, data, response) {
-      console.log("data:",data);
-      users.res.send(data);
-    })
+function getFollowersIds (screen_name, callback) {//'tolga_tezel'
+  client_2.get('followers/ids', { screen_name: screen_name },  function (err, data, response) {
+    if( data && data.ids ){
+      usersId = usersId.concat(data.ids);
+      console.log("usersId:",usersId.length);
+    }
+    if( callback ){
+      callback(users.user2.screen_name)
+    }else{
+      users.res.send(usersId);
+    }
+  })
 }
 
 module.exports = router;
