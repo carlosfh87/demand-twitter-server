@@ -81,6 +81,7 @@ function getFollowersIds (screen_name, callback) {//'tolga_tezel'
       callback(users.user2.screen_name)
     }else{
       users.res.send(usersId);
+      usersId = [];
     }
   })
 }
