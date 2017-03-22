@@ -30,71 +30,58 @@ router.get('/', function(req, res, next) {
 
   var users = [req.query.user1.trim(),req.query.user2.trim()];
 
-  var ids = [];
-  users.map(function(value,index) {
-    // twitterApi.get('followers/ids', { screen_name: value },  function (err, user, response) {
-    twitterApi.get('friends/ids', { screen_name: value },  function (err, user, response) {
+  var responseData = {
+    data:{},
+    search:[
+      {type:'followers/ids', key:'followers'},
+      {type:'friends/ids', key:'friends'}
+    ]
+  }
 
-      if(!err){
+  responseData.search.map(function(searchBy, searchIndex) {
+    // body...
+    var ids = [];
+    users.map(function(value,index) {
+      // twitterApi.get('followers/ids', { screen_name: value },  function (err, user, response) {
+      twitterApi.get(searchBy.type, { screen_name: value },  function (err, user, response) {
 
-        ids.push(user.ids)
-        console.log("----ids-----",value,ids);
+        if(!err){
+          ids.push(user.ids);
 
-        if(ids.length == users.length){
+          if(ids.length == users.length){
+            var filterIds = _.intersection(ids[0], ids[1]);
 
-          var filterIds = _.intersection(ids[0], ids[1]);
+            if(filterIds.length){
+              getUsersByIds(filterIds, function(err, usersComplete, response) {
+                if(err) {
+                  res.send({error:err})
+                } else {
+                  // res.send(usersComplete);
+                  responseData.data[searchBy.key] = usersComplete;
 
-          console.log("----filterIds-----",filterIds);
-          if(filterIds.length){
-            getUsersByIds(filterIds, function(err, usersComplete, response) {
-              console.log("usersComplete:",usersComplete);
-              if(err) {
-                res.send({error:err})
-              } else {
-                res.send(usersComplete);
+                  if( responseData.data.hasOwnProperty('followers') && responseData.data.hasOwnProperty('friends') ){
+                    res.send(responseData.data);
+                  }
+                }
+              });
+            } else {
+              // res.send(filterIds)
+              responseData.data[searchBy.key] = filterIds;
+              if( responseData.data.hasOwnProperty('followers') && responseData.data.hasOwnProperty('friends') ){
+                res.send(responseData.data);
               }
-            });
-          } else {
-            res.send(filterIds)
+            }
           }
+        } else {
+          res.send({error:err});
+          return false;
         }
-      } else {
-        res.send({error:err});
-      }
-    });
+      });
+    })
   })
 
-  // var usersstring = "48443,406743927,66912831,2542549416,2818515223,1325280360,585254092,84846175,276926175,110459784,48443,406743927,66912831,2542549416,2818515223,1325280360,585254092,84846175,276926175,110459784";
-
-
-  // getFollowersIds(users.user1.screen_name, function(err, usersData, response){
-  //   console.log("get all users")
-  //   res.send(usersData);
-  // });
-
-  // users = {
-  //   followers:[followers1.concat(followers2)],
-  //   friends:[]
-  // }
-  // res.json(users);
 
 });
-
-// function getUsersById(ids, callback){
-//   var usersComplete = [];
-
-//   ids.map(function(value,index){
-//     twitterApi.get('users/show', { user_id: parseInt(value) },  function (err, user, response) {
-//       if( user && !err ){
-//         usersComplete.push(user);
-//       }
-//       console.log("user id", parseInt(value), usersComplete.length, ids.length-1, index );
-//       if( ids.length === usersComplete.length ){
-//         return callback(err, usersComplete, response);
-//       }
-//     });
-//   });
-// }
 
 function getUsersByIds(ids, callback) {
   var usersComplete = [];
@@ -115,10 +102,6 @@ function getUsersByIds(ids, callback) {
   })
 }
 
-function getUsersLookup(ids) {
-  // body...
-}
-
 function chunckarray(array,N){
   var i,
       j,
@@ -131,11 +114,6 @@ function chunckarray(array,N){
       arrayChunk.push(temparray);
   }
   return arrayChunk;
-}
-
-function getAllUsers(usersData) {
-  console.log("getAllUsers:", usersData.length)
-  users.res.send(usersData);
 }
 
 module.exports = router;
