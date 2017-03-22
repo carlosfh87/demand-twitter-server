@@ -45,6 +45,7 @@ router.get('/', function(req, res, next) {
 
           console.log("----filterIds-----",filterIds);
           getUsersByIds(filterIds, function(err, usersComplete, response) {
+            console.log("usersComplete:",usersComplete);
             if(err) return res.send({error:err});
             res.send(usersComplete);
           });
