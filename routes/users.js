@@ -11,22 +11,8 @@ var twitterApi = new Twit({
   timeout_ms:           60*1000,  // optional HTTP request timeout to apply to all requests.
 });
 
-
-var usersData = [];
-var users = {};
-
-/* GET users listing. */
+/* GET users Followers. */
 router.get('/', function(req, res, next) {
-
-  console.log("data query :",req.query);
-
-  usersData = [];
-  users = {
-    user1: {screen_name:req.query.user1, cursor: -1},
-    user2: {screen_name:req.query.user2, cursor: -1},
-    current: 'user1',
-    res: res
-  }
 
   var users = [req.query.user1.trim(),req.query.user2.trim()];
 
@@ -57,7 +43,7 @@ router.get('/', function(req, res, next) {
                   res.send({error:err})
                 } else {
                   // res.send(usersComplete);
-                  responseData.data[searchBy.key] = usersComplete;
+                  responseData.data[searchBy.key] = usersComplete[0];
 
                   if( responseData.data.hasOwnProperty('followers') && responseData.data.hasOwnProperty('friends') ){
                     res.send(responseData.data);
