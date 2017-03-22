@@ -14,6 +14,7 @@ var twitterApi = new Twit({
 
 var usersData = [];
 var users = {};
+var usersId = [];
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
@@ -21,6 +22,7 @@ router.get('/', function(req, res, next) {
   console.log("data query :",req.query);
 
   usersData = [];
+  usersId = [];
   users = {
     user1: {screen_name:req.query.user1, cursor: -1},
     user2: {screen_name:req.query.user2, cursor: -1},
@@ -80,24 +82,17 @@ function getFollowers (screen_name, cursor, callback) {
 }
 
 function getFollowersIds (screen_name, callback) {
-  var usersId = [];
-  var firstUser = false;
   twitterApi.get('followers/ids', { screen_name: screen_name },  function (err, data, response) {
     if(!err){
       if( data && data.ids ){
         usersId = usersId.concat(data.ids);
-        console.log("-------id user------",data.ids)
+        console.log("usersId:",usersId.length);
       }
-      if( !firstUser ){
-        firstUser = !firstUser;
+      if( usersId === data.ids ){
         getFollowersIds(users.user2.screen_name, callback)
       }else{
-        console.log("-----ids-----",usersId);
-        var splitIds = chunckarray(usersId,Math.ceil(usersId.length/2));
-        console.log("------splitIds-----",splitIds);
-        var filterIs = _.intersection(splitIds[0], splitIds[1]);
-        console.log("------filterIs-----", filterIs);
         usersId = _.uniq(usersId);
+        console.log("getFollowersIds:", usersId.length);
         getUsersByIds(usersId, callback);
         // getUsersById(usersId, callback);
       }
