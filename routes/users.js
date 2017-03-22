@@ -86,7 +86,7 @@ function getFollowersIds (screen_name, callback) {
       if( data && data.ids ){
         // usersId = usersId.concat(data.ids);
         usersId[users.current] = data.ids;
-        console.log("usersId:",usersId.length);
+        console.log("usersId:",usersId);
       }
       if( users.current === 'user1' ){
         users.current = 'user2';
