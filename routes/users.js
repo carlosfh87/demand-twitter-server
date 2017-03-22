@@ -3,7 +3,7 @@ var router = express.Router();
 var _ = require('underscore');
 var Twit = require('twit');
 
-var client_2 = new Twit({
+var twitterApi = new Twit({
   consumer_key:         'Mfr2N91xC1JJVWvcjthsM7j1X',
   consumer_secret:      'GMrRn4I691mVxiha6YGHp4Wn1RXfLmZIN53tRW8iqARg49uV1M',
   access_token:         '285409171-uXwaLMhbpNmtm57qKcpq1lAOhhb1xDavU7hjsGol',
@@ -29,8 +29,6 @@ router.get('/', function(req, res, next) {
     current: 'user1',
     res: res
   }
-
-  console.log("users[users.current]",users[users.current].screen_name,users[users.current].cursor)
 
   getFollowersIds(users.user1.screen_name, getFollowersIds);
 
@@ -67,15 +65,15 @@ function apiresponse(err, data, reponse) {
 function getFollowers (screen_name, cursor, callback) {
   console.log("getFollowers:",screen_name,cursor)
   if( screen_name && cursor ){
-    client_2.get('followers/list', { screen_name: screen_name, cursor:cursor, include_user_entities:false }, callback);
+    twitterApi.get('followers/list', { screen_name: screen_name, cursor:cursor, include_user_entities:false }, callback);
   }else{
     console.log("getFollowers send data:", usersData.length)
     users.res.send(usersData);
   }
 }
 
-function getFollowersIds (screen_name, callback) {//'tolga_tezel'
-  client_2.get('followers/ids', { screen_name: screen_name },  function (err, data, response) {
+function getFollowersIds (screen_name, callback) {
+  twitterApi.get('followers/ids', { screen_name: screen_name },  function (err, data, response) {
     if( data && data.ids ){
       usersId = usersId.concat(data.ids);
       console.log("usersId:",usersId.length);
@@ -84,15 +82,29 @@ function getFollowersIds (screen_name, callback) {//'tolga_tezel'
       callback(users.user2.screen_name)
     }else{
       usersId = _.uniq(usersId);
-      users.res.send(usersId);
+      var users = getUsersById(ids, getAllUsers);
+      users.res.send(users);
     }
   })
 }
 
-function getUsersById(){
-  for (var id in usersId){
-
+function getUsersById(ids, callback){
+  var usersComplete = [];
+  for (var index in ids){//users/show
+    twitterApi.get('users/show', { user_id: ids[index] },  function (err, user, response) {
+      if( user && !err ){
+        usersComplete.push(user);
+      }
+      if( (ids.length-1) === index){
+        callback(usersComplete);
+      }
+    });
   }
+}
+
+function getAllUsers(usersData) {
+  console.log("getAllUsers:", usersData.length)
+  users.res.send(usersData);
 }
 
 module.exports = router;
