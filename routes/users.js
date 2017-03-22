@@ -32,6 +32,7 @@ router.get('/', function(req, res, next) {
 
   console.log("users[users.current]",users[users.current].screen_name,users[users.current].cursor)
 
+  getFollowersIds(users[users.current].screen_name, users[users.current].cursor)
   getFollowers(users[users.current].screen_name, users[users.current].cursor, apiresponse)
 
   // users = {
@@ -72,6 +73,12 @@ function getFollowers (screen_name, cursor, callback) {
     console.log("getFollowers send data:", usersData.length)
     users.res.send(usersData);
   }
+}
+
+function getFollowersIds (screen_name, cursor, callback) {
+    client_2.get('followers/id', { screen_name: screen_name, cursor:cursor, count:5000 }, function(err, data, response){
+      console.log("getFollowersIds:",data);
+    });
 }
 
 module.exports = router;
