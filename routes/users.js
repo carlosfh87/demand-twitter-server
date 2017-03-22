@@ -80,20 +80,21 @@ function getFollowers (screen_name, cursor, callback) {
 }
 
 function getFollowersIds (screen_name, callback) {
-  var usersId = [];
+  var usersId = {};
   twitterApi.get('followers/ids', { screen_name: screen_name },  function (err, data, response) {
     if(!err){
       if( data && data.ids ){
-        usersId.push(data.ids);
+        // usersId = usersId.concat(data.ids);
+        usersId[users.current] = data.ids;
         console.log("usersId:",usersId.length);
       }
-      if( usersId.length < 2 ){
-        console.log("next screen_name:",users.user2.screen_name)
+      if( users.current === 'user1' ){
+        users.current = 'user2';
         getFollowersIds(users.user2.screen_name, callback)
       }else{
-        usersId = _.uniq(usersId);
-        console.log("getFollowersIds:", usersId.length);
-        getUsersByIds(usersId, callback);
+        var usersFiltersId = _.intersection_(usersId['user1'],usersId['user2']);
+        console.log("getFollowersIds:", usersFiltersId.length);
+        getUsersByIds(usersFiltersId, callback);
         // getUsersById(usersId, callback);
       }
     }else{
