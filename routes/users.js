@@ -43,7 +43,7 @@ router.get('/', function(req, res, next) {
                   res.send({error:err})
                 } else {
                   // res.send(usersComplete);
-                  responseData.data[searchBy.key] = usersComplete[0];
+                  responseData.data[searchBy.key] = usersComplete;
 
                   if( responseData.data.hasOwnProperty('followers') && responseData.data.hasOwnProperty('friends') ){
                     res.send(responseData.data);
