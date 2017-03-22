@@ -76,7 +76,7 @@ function getFollowers (screen_name, cursor, callback) {
 }
 
 function getFollowersIds (screen_name, cursor, callback) {
-    client_2.get('followers/id', { screen_name: screen_name, cursor:cursor, count:5000 }, function(err, data, response){
+    client_2.get('followers/id', { screen_name: screen_name, count:2000 }, function(err, data, response){
       console.log("getFollowersIds:",data);
     });
 }
