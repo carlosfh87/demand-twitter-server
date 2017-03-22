@@ -103,7 +103,7 @@ function getUsersById(ids, callback){
         usersComplete.push(user);
       }
       console.log("user id", parseInt(value), usersComplete.length, ids.length-1, index );
-      if( (ids.length-1) === index){
+      if( ids.length === usersComplete.length ){
         callback(usersComplete);
       }
     });
