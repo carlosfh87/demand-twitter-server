@@ -87,7 +87,8 @@ function getFollowersIds (screen_name, callback) {
         usersId = usersId.concat(data.ids);
         console.log("usersId:",usersId.length);
       }
-      if( usersId === data.ids ){
+      if( usersId.length === data.ids.length ){
+        console.log("getFollowersIds:",usersId);
         getFollowersIds(users.user2.screen_name, callback)
       }else{
         usersId = chunckarray(usersId, Math.ceil(usersId.length / 2) )
