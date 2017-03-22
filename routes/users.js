@@ -85,13 +85,12 @@ function getFollowersIds (screen_name, callback) {
     if(!err){
       if( data && data.ids ){
         usersId = usersId.concat(data.ids);
-        console.log("usersId:",usersId.length);
       }
       if( usersId === data.ids ){
         getFollowersIds(users.user2.screen_name, callback)
       }else{
+        console.log("-----ids-----",usersId);
         usersId = _.uniq(usersId);
-        console.log("getFollowersIds:", usersId.length);
         getUsersByIds(usersId, callback);
         // getUsersById(usersId, callback);
       }
