@@ -82,8 +82,7 @@ function getFollowersIds (screen_name, callback) {
       callback(users.user2.screen_name)
     }else{
       usersId = _.uniq(usersId);
-      var users = getUsersById(ids, getAllUsers);
-      users.res.send(users);
+      getUsersById(usersId, getAllUsers);
     }
   })
 }
