@@ -87,14 +87,12 @@ function getFollowersIds (screen_name, callback) {
         usersId = usersId.concat(data.ids);
         console.log("usersId:",usersId.length);
       }
-      if( usersId.length === data.ids.length ){
-        console.log("getFollowersIds:",usersId);
+      if( usersId === data.ids ){
         getFollowersIds(users.user2.screen_name, callback)
       }else{
-        usersId = chunckarray(usersId, Math.ceil(usersId.length / 2) )
-        var filterIds = _.intersection(usersId[0],usersId[1]);
-        console.log("getFollowersIds:", filterIds.length);
-        getUsersByIds(filterIds, callback);
+        usersId = _.uniq(usersId);
+        console.log("getFollowersIds:", usersId.length);
+        getUsersByIds(usersId, callback);
         // getUsersById(usersId, callback);
       }
     }else{
