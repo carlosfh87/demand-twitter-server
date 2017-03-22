@@ -30,16 +30,25 @@ router.get('/', function(req, res, next) {
     res: res
   }
 
+  var users = [req.query.user1,req.query.user2];
+
+  var ids = [];
+  users.map(function(value,index) {
+    twitterApi.get('users/lookup', { user_id: value },  function (err, user, response) {
+      ids.push(user.ids)
+      if(ids.length == users.length){
+        res.send(user);
+      }
+    });
+  })
+
   // var usersstring = "48443,406743927,66912831,2542549416,2818515223,1325280360,585254092,84846175,276926175,110459784,48443,406743927,66912831,2542549416,2818515223,1325280360,585254092,84846175,276926175,110459784";
 
-  // twitterApi.get('users/lookup', { user_id: usersstring },  function (err, user, response) {
-  //   res.send(user);
-  // });
 
-  getFollowersIds(users.user1.screen_name, function(err, usersData, response){
-    console.log("get all users")
-    res.send(usersData);
-  });
+  // getFollowersIds(users.user1.screen_name, function(err, usersData, response){
+  //   console.log("get all users")
+  //   res.send(usersData);
+  // });
 
   // users = {
   //   followers:[followers1.concat(followers2)],
