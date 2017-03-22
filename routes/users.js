@@ -36,6 +36,7 @@ router.get('/', function(req, res, next) {
   users.map(function(value,index) {
     twitterApi.get('users/lookup', { user_id: value },  function (err, user, response) {
       ids.push(user.ids)
+      console.log("----ids-----",ids);
       if(ids.length == users.length){
         res.send(user);
       }
