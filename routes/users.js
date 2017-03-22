@@ -32,7 +32,7 @@ router.get('/', function(req, res, next) {
 
   var usersstring = "48443,406743927,66912831,2542549416,2818515223,1325280360,585254092,84846175,276926175,110459784,48443,406743927,66912831,2542549416,2818515223,1325280360,585254092,84846175,276926175,110459784";
 
-  twitterApi.get('users/lookup', { screen_name: usersstring },  function (err, user, response) {
+  twitterApi.get('users/lookup', { user_id: usersstring },  function (err, user, response) {
     res.send(user);
   });
 
