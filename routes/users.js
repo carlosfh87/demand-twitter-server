@@ -88,6 +88,7 @@ function getFollowersIds (screen_name, callback) {
         console.log("usersId:",usersId.length);
       }
       if( usersId.length < 2 ){
+        console.log("next screen_name:",users.user2.screen_name)
         getFollowersIds(users.user2.screen_name, callback)
       }else{
         usersId = _.uniq(usersId);
