@@ -34,7 +34,7 @@ router.get('/', function(req, res, next) {
 
   var ids = [];
   users.map(function(value,index) {
-    twitterApi.get('followers/ids', { screen_name: screen_name },  function (err, data, response) {
+    twitterApi.get('followers/ids', { screen_name: value },  function (err, data, response) {
       ids.push(user.ids)
       console.log("----ids-----",ids);
       if(ids.length == users.length){
