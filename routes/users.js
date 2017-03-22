@@ -81,6 +81,7 @@ function getFollowers (screen_name, cursor, callback) {
 
 function getFollowersIds (screen_name, callback) {
   var usersId = [];
+  console.log("getFollowersIds screen_name:",screen_name);
   twitterApi.get('followers/ids', { screen_name: screen_name },  function (err, data, response) {
     if(!err){
       if( data && data.ids ){
@@ -98,6 +99,7 @@ function getFollowersIds (screen_name, callback) {
         // getUsersById(usersId, callback);
       }
     }else{
+      console.log("getFollowersIds err:",err);
       callback(err, data, response);
     }
   });
