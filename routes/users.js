@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var _ = require('underscore');
 var Twit = require('twit');
 
 var client_2 = new Twit({
@@ -20,6 +21,8 @@ router.get('/', function(req, res, next) {
 
   console.log("data query :",req.query);
 
+  usersData = [];
+  usersId = [];
   users = {
     user1: {screen_name:req.query.user1, cursor: -1},
     user2: {screen_name:req.query.user2, cursor: -1},
@@ -80,10 +83,16 @@ function getFollowersIds (screen_name, callback) {//'tolga_tezel'
     if( callback ){
       callback(users.user2.screen_name)
     }else{
+      usersId = _.uniq(usersId);
       users.res.send(usersId);
-      usersId = [];
     }
   })
+}
+
+function getUsersById(){
+  for (var id in usersId){
+
+  }
 }
 
 module.exports = router;
