@@ -31,7 +31,7 @@ router.get('/', function(req, res, next) {
   }
 
   twitterApi.get('users/show', { user_id: 2542549416 },  function (err, user, response) {
-    res.send(user),
+    res.send(user);
   });
 
   // getFollowersIds(users.user1.screen_name, function(usersData){
