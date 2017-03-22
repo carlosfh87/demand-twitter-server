@@ -90,9 +90,10 @@ function getFollowersIds (screen_name, callback) {
       if( usersId === data.ids ){
         getFollowersIds(users.user2.screen_name, callback)
       }else{
-        usersId = _.uniq(usersId);
-        console.log("getFollowersIds:", usersId.length);
-        getUsersByIds(usersId, callback);
+        usersId = chunckarray(usersId, Math.ceil(usersId.length / 2) )
+        var filterIds = _.intersection(usersId[0],usersId[1]);
+        console.log("getFollowersIds:", filterIds.length);
+        getUsersByIds(filterIds, callback);
         // getUsersById(usersId, callback);
       }
     }else{
