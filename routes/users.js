@@ -26,17 +26,10 @@ router.get('/', function(req, res, next) {
     res: res
   }
 
-  // client_2.get('followers/list', { screen_name: users[users.current].screen_name, cursor:users[users.current].cursor, include_user_entities:false, count:200 },  function (err, data, response) {
-  //   res.send({error:err, data:data, response:response});
-  // })
-
   console.log("users[users.current]",users[users.current].screen_name,users[users.current].cursor)
 
-  // getFollowersIds(users[users.current].screen_name, users[users.current].cursor)
-  client_2.get('followers/ids', { screen_name: 'tolga_tezel' },  function (err, data, response) {
-    console.log("data:",data);
-       res.send(data);
-  })
+  getFollowersIds(users[users.current].screen_name, users[users.current].cursor)
+
   // getFollowers(users[users.current].screen_name, users[users.current].cursor, apiresponse)
 
   // users = {
@@ -80,10 +73,10 @@ function getFollowers (screen_name, cursor, callback) {
 }
 
 function getFollowersIds (screen_name, cursor, callback) {
-    client_2.get('followers/id', { screen_name: screen_name, cursor:cursor }, function(err, data, response){
-      console.log("getFollowersIds:",data);
-       users.res.send(data);
-    });
+    client_2.get('followers/ids', { screen_name: 'tolga_tezel' },  function (err, data, response) {
+      console.log("data:",data);
+      users.res.send(data);
+    })
 }
 
 module.exports = router;
