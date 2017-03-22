@@ -97,17 +97,17 @@ function getFollowersIds (screen_name, callback) {
 
 function getUsersById(ids, callback){
   var usersComplete = [];
-  for (var index in ids){
-    twitterApi.get('users/show', { user_id: parseInt(ids[index]) },  function (err, user, response) {
+  ids.map(function(value,index){
+    twitterApi.get('users/show', { user_id: parseInt(value) },  function (err, user, response) {
       if( user && !err ){
         usersComplete.push(user);
       }
-      console.log("user id",ids[index], usersComplete.length );
+      console.log("user id", parseInt(value), usersComplete.length, ids.length-1, index );
       if( (ids.length-1) === index){
         callback(usersComplete);
       }
     });
-  }
+  });
 }
 
 function getAllUsers(usersData) {
