@@ -14,6 +14,11 @@ var twitterApi = new Twit({
 /* GET users Followers/Friends. */
 router.get('/', function(req, res, next) {
 
+  if(!req.query.user1 || !req.query.user2){
+    res.json({error:"No users passed"});
+    return false;
+  }
+
   // Get users screen_name from the GET request
   var users = [req.query.user1.trim(),req.query.user2.trim()];
 
