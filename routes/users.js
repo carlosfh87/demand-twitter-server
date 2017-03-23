@@ -15,9 +15,7 @@ var twitterApi = new Twit({
 router.get('/', function(req, res, next) {
 
   if(!req.query.user1 || !req.query.user2){
-    var error = {};
-    error['message'] = "No users passed";
-    res.json({error:error});
+    res.send({error:"No users passed"});
     return false;
   }
 
