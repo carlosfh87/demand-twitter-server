@@ -60,6 +60,11 @@ router.get('/', function(req, res, next) {
                   // Validate if followers and friends data have been getted for boths users
                   if( responseData.data.hasOwnProperty('followers') && responseData.data.hasOwnProperty('friends') ){
                     // Send response
+                    res.set({
+                      'Access-Control-Allow-Origin': '*',
+                      'Access-Control-Allow-Methods': "GET, POST, PUT",
+                      'Access-Control-Allow-Headers': 'X-Requested-With'
+                    })
                     res.send(responseData.data);
                   }
                 }
@@ -70,6 +75,11 @@ router.get('/', function(req, res, next) {
 
               // Validate if followers and friends data have been getted for boths users
               if( responseData.data.hasOwnProperty('followers') && responseData.data.hasOwnProperty('friends') ){
+                res.set({
+                  'Access-Control-Allow-Origin': '*',
+                  'Access-Control-Allow-Methods': "GET, POST, PUT",
+                  'Access-Control-Allow-Headers': 'X-Requested-With'
+                })
                 res.send(responseData.data);
               }
             }
