@@ -24393,8 +24393,6 @@
 
   var _reactRedux = __webpack_require__(160);
 
-  var _redux = __webpack_require__(167);
-
   var _index = __webpack_require__(209);
 
   var _custom_modal = __webpack_require__(237);
@@ -24465,24 +24463,14 @@
                   _react2.default.createElement(_followers_list2.default, { nameList: 'common friends', users: this.props.users.friends })
               );
           }
-      }, {
-          key: 'componentDidUpdate',
-          value: function componentDidUpdate(prevProps, prevState) {
-              if ((this.props.followers || this.props.friends) && this.props.loader) {
-                  this.props.showLoader(false);
-              }
-          }
       }]);
 
       return Followers;
   }(_react.Component);
 
-  function mapDispatchToProps(dispatch) {
-      // get the users and call the action method to get followers/friends
-      return (0, _redux.bindActionCreators)({ showLoader: _index.showLoader }, dispatch);
-  }
-
   // pass the users ans the selected user to followersList and CustomModal component respectively
+
+
   function mapStateToProps(_ref) {
       var users = _ref.users,
           user = _ref.user,
@@ -24491,7 +24479,7 @@
       return { users: users, user: user, loader: loader };
   }
 
-  exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Followers);
+  exports.default = (0, _reactRedux.connect)(mapStateToProps)(Followers);
 
 /***/ },
 /* 237 */
@@ -30447,6 +30435,12 @@
 
   var _react2 = _interopRequireDefault(_react);
 
+  var _reactRedux = __webpack_require__(160);
+
+  var _redux = __webpack_require__(167);
+
+  var _index = __webpack_require__(209);
+
   var _followers_list_item = __webpack_require__(384);
 
   var _followers_list_item2 = _interopRequireDefault(_followers_list_item);
@@ -30513,12 +30507,23 @@
                   )
               );
           }
+      }, {
+          key: 'componentDidUpdate',
+          value: function componentDidUpdate(prevProps, prevState) {
+              console.log("hide loader");
+              this.props.showLoader(false);
+          }
       }]);
 
       return FollowersList;
   }(_react.Component);
 
-  exports.default = FollowersList;
+  function mapDispatchToProps(dispatch) {
+      // get the users and call the action method to get followers/friends
+      return (0, _redux.bindActionCreators)({ showLoader: _index.showLoader }, dispatch);
+  }
+
+  exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(FollowersList);
 
 /***/ },
 /* 384 */
