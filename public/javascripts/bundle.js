@@ -22789,7 +22789,7 @@
                               _react2.default.createElement(
                                   'button',
                                   { type: 'submit', className: 'btn btn-success' },
-                                  'Search comun users'
+                                  'Search common users'
                               )
                           )
                       )
@@ -30586,6 +30586,9 @@
               };
               var styleDescription = { color: "#" + this.props.profile_text_color };
 
+              var description = this.props.description ? this.props.description : "";
+              description = description.length > 109 ? description.slice(0, 109) + "..." : description;
+              console.log("length description:", description);
               return _react2.default.createElement(
                   'li',
                   { className: 'list-group-item followers-item', onClick: this.onCLickList, style: styleItemContainerList },
@@ -30622,7 +30625,7 @@
                           _react2.default.createElement(
                               'p',
                               { style: styleDescription },
-                              this.props.description
+                              description
                           )
                       )
                   )
