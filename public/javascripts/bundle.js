@@ -24503,6 +24503,7 @@
               var location = this.props.user.location;
               var description = this.props.user.description;
               var profile_background_color = this.props.user.profile_background_color;
+              var profile_text_color = this.props.user.profile_text_color;
               var created_at = this.props.user.created_at;
               var profile_banner_url = this.props.user.profile_banner_url;
               var profile_background_image_url = this.props.user.profile_background_image_url;
@@ -24514,6 +24515,10 @@
               }).join(",").concat(",0.6");
               var modalBg = {
                   backgroundColor: 'rgba(' + modalBgColor + ')'
+              };
+              var modalBodyBg = {
+                  textShadow: "-1px 1px 2px rgba(255, 255, 255, 1)",
+                  color: '#' + profile_text_color
               };
 
               return _react2.default.createElement(
@@ -24533,7 +24538,7 @@
                       null,
                       _react2.default.createElement(
                           'div',
-                          { className: 'row', style: { backgroundImage: 'url(' + profile_banner_url + ')   ' } },
+                          { className: 'row', style: { backgroundImage: 'url(' + profile_banner_url + ')' } },
                           _react2.default.createElement(
                               'div',
                               { className: 'col-md-12' },
@@ -24542,7 +24547,7 @@
                                   { className: 'media' },
                                   _react2.default.createElement(
                                       'div',
-                                      { className: 'media-body', style: { textShadow: "-1px 1px 2px rgba(255, 255, 255, 1)" } },
+                                      { className: 'media-body', style: modalBodyBg },
                                       _react2.default.createElement(
                                           'div',
                                           { className: 'media-heading' },
