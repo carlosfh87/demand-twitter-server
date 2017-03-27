@@ -24395,6 +24395,8 @@
 
   var _redux = __webpack_require__(167);
 
+  var _index = __webpack_require__(209);
+
   var _custom_modal = __webpack_require__(237);
 
   var _custom_modal2 = _interopRequireDefault(_custom_modal);
@@ -24463,14 +24465,24 @@
                   _react2.default.createElement(_followers_list2.default, { nameList: 'common friends', users: this.props.users.friends })
               );
           }
+      }, {
+          key: 'componentDidUpdate',
+          value: function componentDidUpdate(prevProps, prevState) {
+              if (this.props.followers && this.props.friends && this.props.loader) {
+                  this.props.showLoader(false);
+              }
+          }
       }]);
 
       return Followers;
   }(_react.Component);
 
+  function mapDispatchToProps(dispatch) {
+      // get the users and call the action method to get followers/friends
+      return (0, _redux.bindActionCreators)({ showLoader: _index.showLoader }, dispatch);
+  }
+
   // pass the users ans the selected user to followersList and CustomModal component respectively
-
-
   function mapStateToProps(_ref) {
       var users = _ref.users,
           user = _ref.user,
@@ -24479,7 +24491,7 @@
       return { users: users, user: user, loader: loader };
   }
 
-  exports.default = (0, _reactRedux.connect)(mapStateToProps)(Followers);
+  exports.default = (0, _reactRedux.connect)(mapStateToProps, mapDispatchToProps)(Followers);
 
 /***/ },
 /* 237 */
@@ -30439,12 +30451,6 @@
 
   var _followers_list_item2 = _interopRequireDefault(_followers_list_item);
 
-  var _reactRedux = __webpack_require__(160);
-
-  var _redux = __webpack_require__(167);
-
-  var _index = __webpack_require__(209);
-
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
   function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -30471,9 +30477,6 @@
           key: 'validateList',
           value: function validateList() {
               var _this2 = this;
-
-              // hide loader
-              this.props.showLoader(false);
 
               // if there are users print the users,, if not return users not found message
               if (!this.props.users || !this.props.users.length) {
@@ -30515,15 +30518,7 @@
       return FollowersList;
   }(_react.Component);
 
-  // Anything returned from this function  end up as props
-  // on the followers Container
-
-
-  function mapDispatchToProps(dispatch) {
-      // get the users and call the action method to get followers/friends
-      return (0, _redux.bindActionCreators)({ showLoader: _index.showLoader }, dispatch);
-  }
-  exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(FollowersList);
+  exports.default = FollowersList;
 
 /***/ },
 /* 384 */
