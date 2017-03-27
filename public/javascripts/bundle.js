@@ -24419,7 +24419,7 @@
               if (this.props.users.error) {
                   error = _react2.default.createElement(
                       'div',
-                      { 'class': 'alert alert-danger', role: 'alert' },
+                      { className: 'alert alert-danger', role: 'alert' },
                       _react2.default.createElement(
                           'strong',
                           null,
