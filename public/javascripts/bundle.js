@@ -24534,6 +24534,8 @@
               var profile_image_url = this.props.user.profile_image_url;
 
 
+              var bgBodyModalContainer = profile_banner_url ? profile_banner_url : profile_background_image_url;
+
               var modalBgColor = profile_background_color.match(/.{1,2}/g).map(function (val) {
                   return parseInt(val, 16);
               }).join(",").concat(",0.6");
@@ -24566,7 +24568,7 @@
                       null,
                       _react2.default.createElement(
                           'div',
-                          { className: 'row', style: { backgroundImage: 'url(' + profile_banner_url + ')' } },
+                          { className: 'row', style: { backgroundImage: 'url(' + bgBodyModalContainer + ')' } },
                           _react2.default.createElement(
                               'div',
                               { className: 'col-md-12' },
