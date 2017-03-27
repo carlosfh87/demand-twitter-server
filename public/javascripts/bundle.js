@@ -24509,10 +24509,14 @@
               var profile_text_color = this.props.user.profile_text_color;
               var profile_image_url = this.props.user.profile_image_url;
 
-              var modalBg = 'backgroundImage: url(' + profile_banner_url + ');backgroundColor:' + profile_text_color;
+              var modalBg = {
+                  backgroundImage: 'url(' + profile_banner_url + ')',
+                  backgroundColor: { profile_text_color: profile_text_color }
+              };
+
               return _react2.default.createElement(
                   _Modal2.default,
-                  { show: !!this.props.user, onHide: this.closeModal, bsClass: modalBg },
+                  { show: !!this.props.user, onHide: this.closeModal, style: modalBg },
                   _react2.default.createElement(
                       _Modal2.default.Header,
                       null,
@@ -24527,7 +24531,7 @@
                       null,
                       _react2.default.createElement(
                           'div',
-                          { className: 'row' },
+                          { className: 'row', style: { backgroundImage: 'url(' + profile_background_image_url + ')   ' } },
                           _react2.default.createElement(
                               'div',
                               { className: 'col-md-12' },
