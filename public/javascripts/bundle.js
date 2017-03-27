@@ -73,7 +73,7 @@
 
   var _app2 = _interopRequireDefault(_app);
 
-  var _reducers = __webpack_require__(384);
+  var _reducers = __webpack_require__(385);
 
   var _reducers2 = _interopRequireDefault(_reducers);
 
@@ -22728,6 +22728,7 @@
           key: 'onFormSubmit',
           value: function onFormSubmit(event) {
               event.preventDefault();
+              this.props.showLoader(true);
               this.props.getFollowers(this.state);
           }
       }, {
@@ -22806,7 +22807,7 @@
 
   function mapDispatchToProps(dispatch) {
       // get the users and call the action method to get followers/friends
-      return (0, _redux.bindActionCreators)({ getFollowers: _index.getFollowers }, dispatch);
+      return (0, _redux.bindActionCreators)({ getFollowers: _index.getFollowers, showLoader: _index.showLoader }, dispatch);
   }
   exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(SearchBar);
 
@@ -22821,6 +22822,7 @@
   });
   exports.getFollowers = getFollowers;
   exports.userSelected = userSelected;
+  exports.showLoader = showLoader;
 
   var _axios = __webpack_require__(210);
 
@@ -22861,6 +22863,13 @@
     return {
       type: types.USER_SELECTED,
       payload: user
+    };
+  }
+
+  function showLoader(show) {
+    return {
+      type: types.SHOW_LOADER,
+      payload: show
     };
   }
 
@@ -24364,6 +24373,7 @@
   });
   var GET_FOLLOWERS = exports.GET_FOLLOWERS = 'GET_FOLLOWERS';
   var USER_SELECTED = exports.USER_SELECTED = 'USER_SELECTED';
+  var SHOW_LOADER = exports.SHOW_LOADER = 'SHOW_LOADER';
 
 /***/ },
 /* 236 */
@@ -24389,7 +24399,11 @@
 
   var _custom_modal2 = _interopRequireDefault(_custom_modal);
 
-  var _followers_list = __webpack_require__(382);
+  var _Loader = __webpack_require__(382);
+
+  var _Loader2 = _interopRequireDefault(_Loader);
+
+  var _followers_list = __webpack_require__(383);
 
   var _followers_list2 = _interopRequireDefault(_followers_list);
 
@@ -24419,6 +24433,12 @@
       }
 
       _createClass(Followers, [{
+          key: 'getLoader',
+          value: function getLoader() {
+              if (!this.props.loader) return "";
+              return _react2.default.createElement(_Loader2.default, null);
+          }
+      }, {
           key: 'render',
           value: function render() {
               var error = "";
@@ -24438,6 +24458,7 @@
                   { className: 'col-md-12', id: 'followers-container' },
                   error,
                   _react2.default.createElement(_custom_modal2.default, { user: this.props.user }),
+                  this.getLoader(),
                   _react2.default.createElement(_followers_list2.default, { nameList: 'common followers', users: this.props.users.followers }),
                   _react2.default.createElement(_followers_list2.default, { nameList: 'common friends', users: this.props.users.friends })
               );
@@ -24452,9 +24473,10 @@
 
   function mapStateToProps(_ref) {
       var users = _ref.users,
-          user = _ref.user;
+          user = _ref.user,
+          loader = _ref.loader;
 
-      return { users: users, user: user };
+      return { users: users, user: user, loader: loader };
   }
 
   exports.default = (0, _reactRedux.connect)(mapStateToProps)(Followers);
@@ -30346,6 +30368,59 @@
 /* 382 */
 /***/ function(module, exports, __webpack_require__) {
 
+  "use strict";
+
+  Object.defineProperty(exports, "__esModule", {
+      value: true
+  });
+
+  var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+  var _react = __webpack_require__(2);
+
+  var _react2 = _interopRequireDefault(_react);
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+
+  function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+  function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+  function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+  var Loader = function (_Component) {
+      _inherits(Loader, _Component);
+
+      function Loader() {
+          _classCallCheck(this, Loader);
+
+          return _possibleConstructorReturn(this, (Loader.__proto__ || Object.getPrototypeOf(Loader)).apply(this, arguments));
+      }
+
+      _createClass(Loader, [{
+          key: "render",
+          value: function render() {
+              return _react2.default.createElement(
+                  "div",
+                  { className: "loader col-md-12" },
+                  _react2.default.createElement(
+                      "div",
+                      { className: "loader-container col-md-offser-3 col-md-6" },
+                      _react2.default.createElement("i", { className: "fa fa-refresh fa-spin" })
+                  )
+              );
+          }
+      }]);
+
+      return Loader;
+  }(_react.Component);
+
+  exports.default = Loader;
+
+/***/ },
+/* 383 */
+/***/ function(module, exports, __webpack_require__) {
+
   'use strict';
 
   Object.defineProperty(exports, "__esModule", {
@@ -30360,9 +30435,15 @@
 
   var _react2 = _interopRequireDefault(_react);
 
-  var _followers_list_item = __webpack_require__(383);
+  var _followers_list_item = __webpack_require__(384);
 
   var _followers_list_item2 = _interopRequireDefault(_followers_list_item);
+
+  var _reactRedux = __webpack_require__(160);
+
+  var _redux = __webpack_require__(167);
+
+  var _index = __webpack_require__(209);
 
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
@@ -30390,6 +30471,9 @@
           key: 'validateList',
           value: function validateList() {
               var _this2 = this;
+
+              // hide loader
+              this.props.showLoader(false);
 
               // if there are users print the users,, if not return users not found message
               if (!this.props.users || !this.props.users.length) {
@@ -30431,10 +30515,18 @@
       return FollowersList;
   }(_react.Component);
 
-  exports.default = FollowersList;
+  // Anything returned from this function  end up as props
+  // on the followers Container
+
+
+  function mapDispatchToProps(dispatch) {
+      // get the users and call the action method to get followers/friends
+      return (0, _redux.bindActionCreators)({ showLoader: _index.showLoader }, dispatch);
+  }
+  exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(FollowersList);
 
 /***/ },
-/* 383 */
+/* 384 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -30553,7 +30645,7 @@
   exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(FollowerListItem);
 
 /***/ },
-/* 384 */
+/* 385 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -30564,25 +30656,30 @@
 
   var _redux = __webpack_require__(167);
 
-  var _reducer_users = __webpack_require__(385);
+  var _reducer_users = __webpack_require__(386);
 
   var _reducer_users2 = _interopRequireDefault(_reducer_users);
 
-  var _reducer_user = __webpack_require__(386);
+  var _reducer_user = __webpack_require__(387);
 
   var _reducer_user2 = _interopRequireDefault(_reducer_user);
+
+  var _reducer_loader = __webpack_require__(388);
+
+  var _reducer_loader2 = _interopRequireDefault(_reducer_loader);
 
   function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
   var rootReducer = (0, _redux.combineReducers)({
     users: _reducer_users2.default,
-    user: _reducer_user2.default
+    user: _reducer_user2.default,
+    loader: _reducer_loader2.default
   });
 
   exports.default = rootReducer;
 
 /***/ },
-/* 385 */
+/* 386 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -30611,7 +30708,7 @@
   function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
 
 /***/ },
-/* 386 */
+/* 387 */
 /***/ function(module, exports, __webpack_require__) {
 
   'use strict';
@@ -30627,6 +30724,35 @@
 
       switch (action.type) {
           case types.USER_SELECTED:
+              return action.payload;
+      }
+
+      return state;
+  };
+
+  var _types = __webpack_require__(235);
+
+  var types = _interopRequireWildcard(_types);
+
+  function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+/***/ },
+/* 388 */
+/***/ function(module, exports, __webpack_require__) {
+
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+      value: true
+  });
+
+  exports.default = function () {
+      var state = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+      var action = arguments[1];
+
+
+      switch (action.type) {
+          case types.SHOW_LOADER:
               return action.payload;
       }
 
