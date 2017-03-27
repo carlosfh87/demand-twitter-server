@@ -22821,7 +22821,7 @@
 /* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
-  'use strict';
+  "use strict";
 
   Object.defineProperty(exports, "__esModule", {
     value: true
@@ -22841,9 +22841,17 @@
     var user1 = _ref.user1,
         user2 = _ref.user2;
 
+    var axios_instance = _axios2.default.create({
+      headers: {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT",
+        "Access-Control-Allow-Headers": "X-Requested-With"
+      }
+    });
+
     var API_URL = "/users";
-    var url = API_URL + '?user1=' + user1 + '&user2=' + user2;
-    var result = _axios2.default.get(url);
+    var url = API_URL + "?user1=" + user1 + "&user2=" + user2;
+    var result = axios_instance.get(url);
     var request = { followers: [1, 2, 3, 4], friends: [1, 2] }; // complement api request
 
     console.log(result, url);
@@ -24406,6 +24414,7 @@
       _createClass(Followers, [{
           key: 'render',
           value: function render() {
+              console.log("followers user:", this.props.users);
               return _react2.default.createElement(
                   'div',
                   { className: 'col-md-12', id: 'followers-container' },
@@ -30322,13 +30331,7 @@
       function FollowersList(props) {
           _classCallCheck(this, FollowersList);
 
-          var _this = _possibleConstructorReturn(this, (FollowersList.__proto__ || Object.getPrototypeOf(FollowersList)).call(this, props));
-
-          _this.state = {
-              'nameList': '',
-              'users': []
-          };
-          return _this;
+          return _possibleConstructorReturn(this, (FollowersList.__proto__ || Object.getPrototypeOf(FollowersList)).call(this, props));
       }
 
       _createClass(FollowersList, [{
@@ -30348,14 +30351,15 @@
                   "profile_text_color": "333333",
                   "created_at": "Mon Jan 23 14:08:12 +0000 2012"
               };
-              return _react2.default.createElement(_followers_list_item2.default, _extends({}, userFake, { key: index }));
+              return _react2.default.createElement(_followers_list_item2.default, _extends({}, user, { key: user.id }));
           }
       }, {
           key: 'validateList',
           value: function validateList() {
               var _this2 = this;
 
-              if (!this.props.users.length) {
+              console.log("users:", this.props.users);
+              if (!this.props.users || !this.props.users.length) {
                   return _react2.default.createElement(
                       'div',
                       { className: 'col-md-6' },
@@ -30375,8 +30379,8 @@
           key: 'render',
           value: function render() {
 
-              console.log('FollowersList ' + this.props.nameList + ' render');
-              console.log('FollowersList ' + this.props.users + ' render');
+              console.log('nameList ' + this.props.nameList + ' render');
+              console.log('users ' + this.props.users + ' render');
 
               return _react2.default.createElement(
                   'div',
@@ -30454,7 +30458,7 @@
           value: function render() {
 
               var user_url = 'https://twitter.com/' + this.props.screen_name;
-              var styleItemContainer = { backgroundColor: "#" + this.props.profile_background_color, backgroundImage: this.props.profile_background_image_url };
+              var styleItemContainer = { backgroundColor: "#" + this.props.profile_background_color, backgroundImage: "url(" + this.props.profile_background_image_url + ")", backgroundSize: "cover" };
               var styleDescription = { color: "#" + this.props.profile_text_color };
 
               return _react2.default.createElement(
@@ -30466,7 +30470,7 @@
                       _react2.default.createElement(
                           'div',
                           { className: 'media-left' },
-                          _react2.default.createElement('img', { className: 'media-object img-responsive', src: this.props.profile_image_url })
+                          _react2.default.createElement('img', { className: 'media-object', src: this.props.profile_image_url })
                       ),
                       _react2.default.createElement(
                           'div',
