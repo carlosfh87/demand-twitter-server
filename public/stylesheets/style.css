@@ -1,8 +1,43 @@
-body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+body{
+    font-size: 15px;
+    padding: 50px;
+    font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
-  color: #00B7FF;
+#search-container {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#search-form{
+    padding: 10px;
+}
+
+#search-form > .form-group input{
+    margin-bottom: 20px;
+}
+
+#followers-container .followers-list {
+    border: 1px solid #CECECE;
+    padding-top: 15px;
+}
+#followers-container .followers-list > h4{
+    margin-top: 10px 0;
+    border: 1px solid #CECECE;
+    border-radius: 5px;
+    padding: 15px;
+}
+#followers-container .followers-list ul{
+    padding: 0;
+}
+#followers-container .followers-list ul .followers-item{
+    margin-bottom: 15px;
+}
+#followers-container .followers-list ul .followers-item .media-body h5{
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+
+#followers-container .followers-list ul .followers-item .media-body span{
+    font-size: 0.8em;
 }
