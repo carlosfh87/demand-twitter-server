@@ -22849,7 +22849,7 @@
       }
     });
 
-    var API_URL = "/users";
+    var API_URL = "http://knomatic-twitter.herokuapp.com/users";
     var url = API_URL + "?user1=" + user1 + "&user2=" + user2;
     var result = axios_instance.get(url);
     var request = { followers: [1, 2, 3, 4], friends: [1, 2] }; // complement api request
@@ -22858,14 +22858,14 @@
 
     return {
       type: 'GET_FOLLOWERS',
-      users: result
+      payload: result
     };
   }
 
   function userSelected(user) {
     return {
       type: 'USER_SELECTED',
-      user: user
+      payload: user
     };
   }
 
@@ -30563,11 +30563,11 @@
       var action = arguments[1];
 
 
-      console.log("resucer_userS action:", action.users);
+      console.log("resucer_userS action:", action);
 
       switch (action.type) {
           case 'GET_FOLLOWERS':
-              return action.users;
+              return action.payload.data;
           // return {followers:[], friends:[]};
       }
 
@@ -30593,7 +30593,7 @@
 
       switch (action.type) {
           case 'USER_SELECTED':
-              return action.user;
+              return action.payload;
       }
 
       return state;
