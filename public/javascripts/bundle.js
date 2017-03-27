@@ -22728,13 +22728,7 @@
           key: 'onFormSubmit',
           value: function onFormSubmit(event) {
               event.preventDefault();
-
               this.props.getFollowers(this.state);
-
-              this.setState({
-                  'user1': '',
-                  'user2': ''
-              });
           }
       }, {
           key: 'render',
