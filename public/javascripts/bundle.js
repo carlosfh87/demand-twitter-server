@@ -82,9 +82,9 @@
   var createStoreWithMiddleware = (0, _redux.applyMiddleware)(_reduxPromise2.default)(_redux.createStore);
 
   _reactDom2.default.render(_react2.default.createElement(
-    _reactRedux.Provider,
-    { store: createStoreWithMiddleware(_reducers2.default) },
-    _react2.default.createElement(_app2.default, null)
+      _reactRedux.Provider,
+      { store: createStoreWithMiddleware(_reducers2.default) },
+      _react2.default.createElement(_app2.default, null)
   ), document.querySelector('.container'));
 
 /***/ },
