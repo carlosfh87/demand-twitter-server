@@ -22820,7 +22820,7 @@
 /* 209 */
 /***/ function(module, exports, __webpack_require__) {
 
-  "use strict";
+  'use strict';
 
   Object.defineProperty(exports, "__esModule", {
     value: true
@@ -22832,9 +22832,13 @@
 
   var _axios2 = _interopRequireDefault(_axios);
 
-  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+  var _types = __webpack_require__(386);
 
-  // import Constants from '../constants/index';
+  var types = _interopRequireWildcard(_types);
+
+  function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+  function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
   function getFollowers(_ref) {
     var user1 = _ref.user1,
@@ -22849,21 +22853,19 @@
     });
 
     var API_URL = "http://knomatic-twitter.herokuapp.com/users";
-    var url = API_URL + "?user1=" + user1 + "&user2=" + user2;
+    var url = API_URL + '?user1=' + user1 + '&user2=' + user2;
     var result = axios_instance.get(url);
-    var request = { followers: [1, 2, 3, 4], friends: [1, 2] }; // complement api request
-
-    console.log(result, url);
+    // const request = {followers:[1,2,3,4], friends:[1,2]}; // api request format
 
     return {
-      type: 'GET_FOLLOWERS',
+      type: types.GET_FOLLOWERS,
       payload: result
     };
   }
 
   function userSelected(user) {
     return {
-      type: 'USER_SELECTED',
+      type: types.USER_SELECTED,
       payload: user
     };
   }
@@ -24413,10 +24415,22 @@
       _createClass(Followers, [{
           key: 'render',
           value: function render() {
-              console.log("followers user:", this.props.users);
+              var error = "";
+              if (this.props.users.error) {
+                  error = _react2.default.createElement(
+                      'div',
+                      { 'class': 'alert alert-danger', role: 'alert' },
+                      _react2.default.createElement(
+                          'strong',
+                          null,
+                          this.props.users.error.message
+                      )
+                  );
+              }
               return _react2.default.createElement(
                   'div',
                   { className: 'col-md-12', id: 'followers-container' },
+                  error,
                   _react2.default.createElement(_custom_modal2.default, { user: this.props.user }),
                   _react2.default.createElement(_followers_list2.default, { nameList: 'Comun followers', users: this.props.users.followers }),
                   _react2.default.createElement(_followers_list2.default, { nameList: 'Comun friends', users: this.props.users.friends })
@@ -30369,7 +30383,6 @@
           value: function validateList() {
               var _this2 = this;
 
-              console.log("users:", this.props.users);
               // if there are users print the users,, if not return users not found message
               if (!this.props.users || !this.props.users.length) {
                   return _react2.default.createElement(
@@ -30390,10 +30403,6 @@
       }, {
           key: 'render',
           value: function render() {
-
-              console.log('nameList ' + this.props.nameList + ' render');
-              console.log('users ' + this.props.users + ' render');
-
               return _react2.default.createElement(
                   'div',
                   { className: 'col-md-6' },
@@ -30561,7 +30570,7 @@
 
 /***/ },
 /* 384 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
   'use strict';
 
@@ -30574,22 +30583,25 @@
       var action = arguments[1];
 
 
-      console.log("resucer_userS action:", action);
-
       switch (action.type) {
-          case 'GET_FOLLOWERS':
+          case types.GET_FOLLOWERS:
               return action.payload.data;
-          // return {followers:[], friends:[]};
       }
 
       return state;
   };
 
+  var _types = __webpack_require__(386);
+
+  var types = _interopRequireWildcard(_types);
+
+  function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
 /***/ },
 /* 385 */
-/***/ function(module, exports) {
+/***/ function(module, exports, __webpack_require__) {
 
-  "use strict";
+  'use strict';
 
   Object.defineProperty(exports, "__esModule", {
       value: true
@@ -30600,15 +30612,31 @@
       var action = arguments[1];
 
 
-      console.log("reducer_user action:", action);
-
       switch (action.type) {
-          case 'USER_SELECTED':
+          case types.USER_SELECTED:
               return action.payload;
       }
 
       return state;
   };
+
+  var _types = __webpack_require__(386);
+
+  var types = _interopRequireWildcard(_types);
+
+  function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj.default = obj; return newObj; } }
+
+/***/ },
+/* 386 */
+/***/ function(module, exports) {
+
+  'use strict';
+
+  Object.defineProperty(exports, "__esModule", {
+    value: true
+  });
+  var GET_FOLLOWERS = exports.GET_FOLLOWERS = 'GET_FOLLOWERS';
+  var USER_SELECTED = exports.USER_SELECTED = 'USER_SELECTED';
 
 /***/ }
 /******/ ]);
