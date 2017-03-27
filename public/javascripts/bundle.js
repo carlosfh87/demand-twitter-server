@@ -24468,7 +24468,7 @@
       }, {
           key: 'componentDidUpdate',
           value: function componentDidUpdate(prevProps, prevState) {
-              if (this.props.followers && this.props.friends && this.props.loader) {
+              if ((this.props.followers || this.props.friends) && this.props.loader) {
                   this.props.showLoader(false);
               }
           }
