@@ -24542,7 +24542,7 @@
                                   { className: 'media' },
                                   _react2.default.createElement(
                                       'div',
-                                      { className: 'media-body' },
+                                      { className: 'media-body', style: { textShadow: "-1px 1px 2px rgba(255, 255, 255, 1)" } },
                                       _react2.default.createElement(
                                           'div',
                                           { className: 'media-heading' },
