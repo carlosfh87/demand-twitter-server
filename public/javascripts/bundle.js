@@ -24506,12 +24506,14 @@
               var created_at = this.props.user.created_at;
               var profile_banner_url = this.props.user.profile_banner_url;
               var profile_background_image_url = this.props.user.profile_background_image_url;
-              var profile_text_color = this.props.user.profile_text_color;
               var profile_image_url = this.props.user.profile_image_url;
 
+
+              var modalBgColor = profile_background_color.match(/.{1,2}/g).map(function (val) {
+                  return parseInt(val, 16);
+              }).join(",").concat(",0.6");
               var modalBg = {
-                  backgroundImage: 'url(' + profile_banner_url + ')',
-                  backgroundColor: { profile_text_color: profile_text_color }
+                  backgroundColor: 'rgba(' + modalBgColor + ')'
               };
 
               return _react2.default.createElement(
@@ -24531,7 +24533,7 @@
                       null,
                       _react2.default.createElement(
                           'div',
-                          { className: 'row', style: { backgroundImage: 'url(' + profile_background_image_url + ')   ' } },
+                          { className: 'row', style: { backgroundImage: 'url(' + profile_banner_url + ')   ' } },
                           _react2.default.createElement(
                               'div',
                               { className: 'col-md-12' },
