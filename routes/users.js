@@ -19,6 +19,11 @@ router.get('/', function(req, res, next) {
     return false;
   }
 
+  if( req.query.user1 == req.query.user2){
+    res.send({error:{"message":"Duplicated users"}});
+    return false;
+  }
+
   // Get users screen_name from the GET request
   var users = [req.query.user1.trim(),req.query.user2.trim()];
 
