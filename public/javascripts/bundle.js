@@ -22807,12 +22807,11 @@
   }(_react.Component);
 
   // Anything returned from this function  end up as props
-  // on the BookList Container
+  // on the followers Container
 
 
   function mapDispatchToProps(dispatch) {
-      // whenever selectBook is called, the result should be passed
-      // to all of our  reducers
+      // get the users and call the action method to get followers/friends
       return (0, _redux.bindActionCreators)({ getFollowers: _index.getFollowers }, dispatch);
   }
   exports.default = (0, _reactRedux.connect)(null, mapDispatchToProps)(SearchBar);
@@ -24428,6 +24427,9 @@
       return Followers;
   }(_react.Component);
 
+  // pass the users ans the selected user to followersList and CustomModal component respectively
+
+
   function mapStateToProps(_ref) {
       var users = _ref.users,
           user = _ref.user;
@@ -24490,14 +24492,16 @@
       _createClass(CustomModal, [{
           key: 'closeModal',
           value: function closeModal() {
+              // Set user state tu null and hide the modal
               this.props.userSelected(null);
           }
       }, {
           key: 'render',
           value: function render() {
-
+              // if no user is selected return an empty div
               if (!this.props.user) return _react2.default.createElement('div', { className: 'hidden' });
 
+              // Get all the proporties from the selected user and pass it to the modal
               var name = this.props.user.name;
               var screen_name = this.props.user.screen_name;
               var location = this.props.user.location;
@@ -24513,13 +24517,17 @@
               var modalBgColor = profile_background_color.match(/.{1,2}/g).map(function (val) {
                   return parseInt(val, 16);
               }).join(",").concat(",0.6");
+
               var modalBg = {
                   backgroundColor: 'rgba(' + modalBgColor + ')'
               };
+
               var modalBodyBg = {
-                  textShadow: "-1px 1px 2px rgba(255, 255, 255, 1)",
+                  textShadow: "-1px 1px 1px rgba(255, 255, 255, 1)",
                   color: '#' + profile_text_color
               };
+
+              var twitter_url = 'https://twitter.com/' + screen_name;
 
               return _react2.default.createElement(
                   _Modal2.default,
@@ -24552,9 +24560,13 @@
                                           'div',
                                           { className: 'media-heading' },
                                           _react2.default.createElement(
-                                              'h4',
-                                              null,
-                                              screen_name
+                                              'a',
+                                              { href: twitter_url, target: '_blank' },
+                                              _react2.default.createElement(
+                                                  'h4',
+                                                  null,
+                                                  screen_name
+                                              )
                                           )
                                       ),
                                       _react2.default.createElement(
@@ -24578,7 +24590,7 @@
                                       { className: 'media-right media-middle' },
                                       _react2.default.createElement(
                                           'a',
-                                          { href: 'https://twitter.com/' + screen_name, target: '_blank' },
+                                          { href: twitter_url, target: '_blank' },
                                           _react2.default.createElement('img', { className: 'media-object', src: profile_image_url, alt: name, title: name, width: '100', height: '100' })
                                       )
                                   )
@@ -24603,11 +24615,11 @@
   }(_react.Component);
 
   // Anything returned from this function  end up as props
-  // on the BookList Container
+  // on the followers Container
 
 
   function mapDispatchToProps(dispatch) {
-      // whenever selectBook is called, the result should be passed
+      // whenever userSelected is called, the result should be passed
       // to all of our  reducers
       return (0, _redux.bindActionCreators)({ userSelected: _index.userSelected }, dispatch);
   }
@@ -30350,20 +30362,6 @@
       _createClass(FollowersList, [{
           key: 'getListItem',
           value: function getListItem(user, index) {
-              console.log("user:", user, index);
-              var userFake = {
-                  "id": index,
-                  "name": "Jesus Rafael Abreu M",
-                  "screen_name": "chuomaraver",
-                  "location": "Medellín, Colombia",
-                  "description": "oijdasdns aldjaopso asdopmsoidjojasd",
-                  "profile_background_color": "C0DEED",
-                  "profile_background_image_url": "http://abs.twimg.com/images/themes/theme1/bg.png",
-                  "profile_image_url": "http://abs.twimg.com/sticky/default_profile_images/default_profile_4_normal.png",
-                  "profile_link_color": "0084B4",
-                  "profile_text_color": "333333",
-                  "created_at": "Mon Jan 23 14:08:12 +0000 2012"
-              };
               return _react2.default.createElement(_followers_list_item2.default, _extends({}, user, { key: user.id }));
           }
       }, {
@@ -30372,6 +30370,7 @@
               var _this2 = this;
 
               console.log("users:", this.props.users);
+              // if there are users print the users,, if not return users not found message
               if (!this.props.users || !this.props.users.length) {
                   return _react2.default.createElement(
                       'div',
@@ -30462,7 +30461,6 @@
       _createClass(FollowerListItem, [{
           key: 'onCLickList',
           value: function onCLickList(event) {
-              console.log("props", this.props);
               event.preventDefault();
               this.props.userSelected(this.props);
           }
@@ -30522,11 +30520,11 @@
   }(_react.Component);
 
   // Anything returned from this function  end up as props
-  // on the BookList Container
+  // on the CustomModal Container
 
 
   function mapDispatchToProps(dispatch) {
-      // whenever selectBook is called, the result should be passed
+      // whenever userSelected is called, the result should be passed
       // to all of our  reducers
       return (0, _redux.bindActionCreators)({ userSelected: _index.userSelected }, dispatch);
   }
