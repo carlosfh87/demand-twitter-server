@@ -5,6 +5,8 @@ body{
 #search-container {
     margin-top: 20px;
     margin-bottom: 20px;
+    border: 1px solid #CECECE;
+    border-radius: 5px;
 }
 
 #search-form{
@@ -18,6 +20,8 @@ body{
 #followers-container .followers-list {
     border: 1px solid #CECECE;
     padding-top: 15px;
+    background-color: ghostwhite;
+    border-radius: 5px;
 }
 #followers-container .followers-list > h4{
     margin-top: 10px 0;
