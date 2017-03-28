@@ -30587,7 +30587,7 @@
               var styleDescription = { color: "#" + this.props.profile_text_color };
 
               var description = this.props.description ? this.props.description : "";
-              description = description.length > 109 ? description.slice(0, 109) + "..." : description;
+              description = description.length > 109 ? description.slice(0, 95) + "..." : description;
               console.log("length description:", description);
               return _react2.default.createElement(
                   'li',
